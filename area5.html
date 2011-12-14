@@ -1,0 +1,276 @@
+<script src="js/jquery.scrollTo-1.4.2-min.js"></script>
+<script src="js/jquery.localscroll-1.2.7-min.js"></script>
+<script src="js/jquery.serialScroll-1.2.2-min.js"></script>
+<script>
+// when the DOM is ready...
+$(document).ready(function () {
+
+var $panels = $('#slider .scrollContainer > div');
+var $container = $('#slider .scrollContainer');
+
+// if false, we'll float all the panels left and fix the width 
+// of the container
+var horizontal = true;
+
+// float the panels left if we're going horizontal
+if (horizontal) {
+  $panels.css({
+    'float' : 'left',
+    'position' : 'relative' // IE fix to ensure overflow is hidden
+  });
+  
+  // calculate a new width for the container (so it holds all panels)
+  $container.css('width', $panels[0].offsetWidth * $panels.length);
+}
+
+// collect the scroll object, at the same time apply the hidden overflow
+// to remove the default scrollbars that will appear
+var $scroll = $('#slider .scroll').css('overflow', 'hidden');
+
+// apply our left + right buttons
+$scroll
+  .before('<img class="scrollButtons left" src="images/arrow_prev.png" />')
+  .after('<img class="scrollButtons right" src="images/arrow_next.png" />');
+
+// handle nav selection
+function selectNav() {
+  $(this)
+    .parents('ul:first')
+      .find('a')
+        .removeClass('selected')
+      .end()
+    .end()
+    .addClass('selected');
+}
+
+$('#slider .navigation').find('a').click(selectNav);
+
+// go find the navigation link that has this target and select the nav
+function trigger(data) {
+  var el = $('#slider .navigation').find('a[href$="' + data.id + '"]').get(0);
+  selectNav.call(el);
+}
+
+if (window.location.hash) {
+  trigger({ id : window.location.hash.substr(1) });
+} else {
+  $('ul.navigation a:first').click();
+}
+
+// offset is used to move to *exactly* the right place, since I'm using
+// padding on my example, I need to subtract the amount of padding to
+// the offset.  Try removing this to get a good idea of the effect
+var offset = parseInt((horizontal ? 
+  $container.css('paddingTop') : 
+  $container.css('paddingLeft')) 
+  || 0) * -1;
+
+
+var scrollOptions = {
+  target: $scroll, // the element that has the overflow
+  
+  // can be a selector which will be relative to the target
+  items: $panels,
+  
+  navigation: '.navigation a',
+  
+  // selectors are NOT relative to document, i.e. make sure they're unique
+  prev: 'img.left', 
+  next: 'img.right',
+  
+  // allow the scroll effect to run both directions
+  axis: 'xy',
+  
+  onAfter: trigger, // our final callback
+  
+  offset: offset,
+  
+  // duration of the sliding effect
+  duration: 500,
+  
+  // easing - can be used with the easing plugin: 
+  // http://gsgd.co.uk/sandbox/jquery/easing/
+  easing: 'swing'
+};
+
+// apply serialScroll to the slider - we chose this plugin because it 
+// supports// the indexed next and previous scroll along with hooking 
+// in to our navigation.
+$('#slider').serialScroll(scrollOptions);
+
+// now apply localScroll to hook any other arbitrary links to trigger 
+// the effect
+$.localScroll(scrollOptions);
+
+// finally, if the URL has a hash, move the slider in to position, 
+// setting the duration to 1 because I don't want it to scroll in the
+// very first page load.  We don't always need this, but it ensures
+// the positioning is absolutely spot on when the pages loads.
+scrollOptions.duration = 1;
+$.localScroll.hash(scrollOptions);
+
+});
+</script>
+<script>
+$('#iniciobtn').click(function(){
+	$('#contenido').html('<div id="loader"><img src="images/loader.gif" border="0"/></div>');
+		$('#worldmap').animate(
+		{
+			marginLeft:'-1560px',
+			marginTop:'-1560px'
+			},1500,
+			function(){
+				$('#contenido').load('area1.html');
+			}
+		);
+});
+</script>
+<div id="slider">
+  <ul class="navigation">
+    <li><a href="#cluna">Cash y Sonia Luna</a></li>
+    <li><a href="#rgracia">Ruddy y Maria Gracia</a></li>
+    <li><a href="#adelgado">Alberto y Miriam Delgado</a></li>
+    <li><a href="#mbarrientos">Marco y Karla Barrientos</a></li>
+    <li><a href="#droever">Dave y Brenda Roever</a></li>
+    <li><a href="#font">Otoniel y Omayra Font</a></li>
+    <li><a href="#leeland">Leeland</a></li>
+  </ul>
+
+  <!-- element with overflow applied -->
+  <div class="scroll">
+    <!-- the element that will be scrolled during the effect -->
+    <div class="scrollContainer">
+      <!-- our individual panels -->
+      <div class="panel" id="cluna">
+		<img src="images/pastoresluna.jpg" border="0" />
+		<div id="predicadoresinfo">
+			El  pastor Carlos Luna, conocido familiarmente como &quot;Cash&quot; porque de ni&ntilde;o pronunciaba su nombre &quot;cash-los&quot;, naci&oacute; el 4 de marzo de 1962 en Guatemala y recibi&oacute; a Jes&uacute;s como su Se&ntilde;or y Salvador en 1982. Obtuvo una licenciatura &quot;Cum Laude&quot; en Administraci&oacute;n de Sistemas de Informaci&oacute;n en la Universidad Francisco Marroqu&iacute;n en la ciudad de Guatemala. En el a&ntilde;o 2002 se doctor&oacute; en Ministerios Pastorales en la California Christian University.<br><br>
+
+Su esposa Sonia, adem&aacute;s de haberle dado tres preciosos hijos, Carlos Enrique, Juan Diego y Ana Gabriela, le apoya incondicionalmente en su ministerio.<br><br>
+
+Casa de Dios, la iglesia que fund&oacute; y pastorea, naci&oacute; en 1994 con la reuni&oacute;n de tres familias y desde entonces se ha extendido en servicios y congregados, bendiciendo a millones de personas. Hoy es una iglesia influyente en Guatemala que se dedica a cuidar del crecimiento espiritual de las personas a trav&eacute;s de peque&ntilde;os grupos en casa. Por esa raz&oacute;n, Casa de Dios es una iglesia grande y peque&ntilde;a a la vez.<br><br>
+
+En septiembre del 2001 se inaugur&oacute; el actual templo con capacidad para 3,500 personas y 1,100 estacionamientos. La congregaci&oacute;n creci&oacute; de forma  sobrenatural y para inicios del a&ntilde;o 2010 contaba con m&aacute;s de 20,000 adultos congregados en 6 servicios cada fin de semana, adem&aacute;s de 2,800 ni&ntilde;os en &quot;Igle-Kids&quot;. En el a&ntilde;o 2008 inici&oacute; la construcci&oacute;n de las nuevas instalaciones de la iglesia a la que llamamos &quot;Ciudad de Dios&quot; que contar&aacute; con m&aacute;s de 12,000 butacas y 3,500 parqueos. La inauguraci&oacute;n est&aacute; planificada para marzo del 2012.<br><br>
+
+El Pastor Cash tambi&eacute;n predica y ministra el poder del Se&ntilde;or en reuniones de milagros llamadas &quot;Noches de Gloria&quot; organizadas en estadios de distintos pa&iacute;ses. El Ministerio produce el programa de televisi&oacute;n cristiano con mayor rating en Latinoam&eacute;rica que se transmite diariamente a nivel internacional. Adem&aacute;s, cuenta con una de las p&aacute;ginas web cristianas m&aacute;s visitadas del mundo.<br><br>
+
+En el a&ntilde;o 2005 inici&oacute; el Banco de Alimentos, proyecto que promueve la conciencia social entre los miembros de la iglesia y la poblaci&oacute;n. Cada tercer domingo de mes se recolectan granos b&aacute;sicos para distribuirse en 20 instituciones de asistencia social como orfanatos, asilos y centros de restauraci&oacute;n. Este proyecto actualmente provee alimento a 2,500 personas diariamente. Ese mismo a&ntilde;o iniciaron otros dos proyectos: CasaTeatro, ministerio que a trav&eacute;s de las artes comparte principios y valores a la comunidad y El Centro Internacional de Estudios Ministeriales (CIEM) que ofrece formaci&oacute;n para l&iacute;deres y pastores. 
+		</div>
+		<div id="predicadoressocial">
+			<a href="http://www.facebook.com/pastorcashluna" target="_blank"><img src="images/facebook_picon.png" border="0" alt="Visitanos en Facebook"></a>
+			<a href="http://twitter.com/#!/PastorCashLuna" target="_blank"><img src="images/twitter_picon.png" border="0" alt="Visitanos en Twitter"></a>
+			<a href="http://www.youtube.com/user/MinisteriosCashLuna" target="_blank"><img src="images/youtube_picon.png" border="0" alt="Visitanos en Youtube"></a>
+			<a href="http://www.cashluna.org" target="_blank"><img src="images/www_picon.png" border="0" alt="Visitanos en nuestra P&aacute;gina"></a>
+		</div>
+	  </div>
+      <div class="panel" id="rgracia">
+	  	<img src="images/pastoresgracia.jpg" border="0" />
+	  	<div id="predicadoresinfo">
+			El pastor Ruddy Gracia nace un 3 de septiembre en la ciudad de Santo Domingo, Rep&uacute;blica Dominicana. Acept&oacute; al Se&ntilde;or como su Salvador a la edad de 15 a&ntilde;os. Cursaba el tercer a&ntilde;o de sus estudios universitarios en medicina cuando recibi&oacute; el llamado del Se&ntilde;or para servir en el ministerio a tiempo completo.<br><br>
+
+En octubre de 1985, conoce a la que hoy es su esposa, Mar&iacute;a Gracia y seis meses despu&eacute;s, un 31 de mayo, se casan. Inmediatamente despu&eacute;s de su boda, los Gracia llegaron a los Estados Unidos, con grandes sue&ntilde;os. Del duro proceso de adaptaci&oacute;n y establecimiento aprendi&oacute;, junto su esposa, a vivir una vida de total dependencia  en Dios y a ejercitar la fe como su m&aacute;s valiosa arma espiritual. En cada paso el Se&ntilde;or los sigui&oacute; con provisi&oacute;n sobrenatural. A&uacute;n su preparaci&oacute;n teol&oacute;gica en el Instituto &quot;Cristo para las 
+Naciones&quot;, en  Dallas, Texas; fue un milagro de provisi&oacute;n.<br><br>
+
+Lo extraordinario se convirti&oacute; desde entonces en el d&iacute;a a d&iacute;a de los pastores Gracia, al tiempo que se consolidaba un aut&eacute;ntico llamado pastoral, sustentado por un notable liderazgo y carisma; as&iacute; como una incuestionable pasi&oacute;n por ganar almas para el Reino.<br><br>
+
+De su mensaje mucho se puede decir, pues su compromiso cristiano y  la autoridad con que maneja  la Palabra de Dios hace que su discurso sea retador y sus ministraciones respaldadas por una poderosa unci&oacute;n y  manifestaciones del Esp&iacute;ritu Santo.<br><br>
+
+En la actualidad pastorea, junto a su esposa, una de las iglesias hispanas m&aacute;s conocidas del Sur de la Florida, con una creciente membres&iacute;a de alrededor de 6,000 personas llamada &quot;Segadores de Vida&quot;. Los Segadores, como son mayormente conocidos, se caracterizan  por una admirable pasi&oacute;n por ganar almas; visi&oacute;n transmitida departe de Dios a su pastor; y la que han abrazado con un evidente entusiasmo e incre&iacute;bles resultados.<br><br>
+
+Portador de una amplia visi&oacute;n,  el pastor Ruddy Gracia ha viajado a Centro y Sur Am&eacute;rica, Europa, el Caribe, Los Estados Unidos y &Aacute;frica, con el  objetivo de sembrar la semilla del evangelio y mostrar el estilo de evangelismo que les ha dado tan buen resultado, a trav&eacute;s de los n&uacute;cleos en hogares y la formaci&oacute;n de l&iacute;deres.<br><br>
+
+Dios usa poderosamente a su siervo y su trabajo es respaldado por un equipo que fielmente le apoya en oraci&oacute;n, enfocados en llevar la visi&oacute;n a un nivel nunca antes visto.<br><br>
+
+Las proyecciones del pastor Ruddy Gracia son claras y la meta est&aacute; bien definida: <i>Impactar con el evangelio desde el Sur de la Florida a todas las naciones. Que cada hogar, sea un lugar de impacto a la sociedad, donde se predique el evangelio de Salvaci&oacute;n y llevar esa semilla por todo el mundo, convencido de que &quot;lo mejor est&Aacute;  por venir&quot;.</i>
+		</div>
+		<div id="predicadoressocial">
+			<a href="http://www.facebook.com/pages/Pastor-Ruddy-Gracia/131135651646" target="_blank"><img src="images/facebook_picon.png" border="0" alt="Visitanos en Facebook"></a>
+			<a href="http://twitter.com/#!/PRuddyGracia" target="_blank"><img src="images/twitter_picon.png" border="0" alt="Visitanos en Twitter"></a>
+			<a href="http://www.youtube.com/user/SDVSegavizion" target="_blank"><img src="images/youtube_picon.png" border="0" alt="Visitanos en Youtube"></a>
+			<a href="http://www.segadores.com" target="_blank"><img src="images/www_picon.png" border="0" alt="Visitanos en nuestra P&aacute;gina"></a>
+		</div>
+	  </div>
+      <div class="panel" id="adelgado">
+	  	<img src="images/pastoresdelgado.jpg" border="0" />
+	  	<div id="predicadoresinfo">
+			Un d&iacute;a en el a&ntilde;o 1974, Alberto quien dorm&iacute;a con la Biblia en el cuarto del hotel, decide abrirla y empezar a leerla.  Alberto a pesar que cre&iacute;a en Cristo a su manera, aquel d&iacute;a no tard&oacute; mucho tiempo en dejar de justificarse y sin poder leer m&aacute;s, cae de rodillas pidiendo perd&oacute;n por la vida que hab&iacute;a llevado ante los ojos de Dios. Hace un cambio radical y deja el alcohol, las drogas y el ambiente en que viv&iacute;a. Consigue trabajo vendiendo productos farmac&eacute;uticos como visitador m&eacute;dico y llega a obtener grandes reconocimientos por sus ventas.  All&iacute; desarrolla su elocuencia.<br><br>
+			
+En 1985 con el deseo en su coraz&oacute;n de fundar una iglesia, establece una carpa en el suroeste de Miami con s&oacute;lo 20 miembros, pero con el deseo ardiente de llevar el mensaje de fe y esparcir la Palabra de Dios. M&aacute;s de 20 a&ntilde;os han pasado y Dios ha engrandecido su obra, al lado de su esposa Mariam y sus dos hijos, Alberto Jr. y Ver&oacute;nica, con una iglesia de m&aacute;s de cinco mil asistentes y un templo que abre sus puertas a alrededor de dos mil personas por servicio.
+		</div>
+		<div id="predicadoressocial">
+			<a href="http://www.facebook.com/pages/Alpha-Omega-Church/35527987084" target="_blank"><img src="images/facebook_picon.png" border="0" alt="Visitanos en Facebook"></a>
+			<a href="http://twitter.com/#!/AlphaOmegaMIA" target="_blank"><img src="images/twitter_picon.png" border="0" alt="Visitanos en Twitter"></a>
+			<a href="http://www.youtube.com/user/AlphaOmegaMIA" target="_blank"><img src="images/youtube_picon.png" border="0" alt="Visitanos en Youtube"></a>
+			<a href="http://alpha-omega.org" target="_blank"><img src="images/www_picon.png" border="0" alt="Visitanos en nuestra P&aacute;gina"></a>
+		</div>
+	  </div>
+      <div class="panel" id="mbarrientos">
+		<img src="images/pastoresbarrientos.jpg" border="0" />
+		<div id="predicadoresinfo">
+			Marco Barrientos Nacido en M&eacute;xico, Marco se gradu&oacute; del Instituto B&iacute;blico Cristo Para Las Naciones en 1985. Desde ese momento ha estado en el ministerio de tiempo completo, comenzando como pastor asociado de Amistad Cristiana en la Ciudad de M&eacute;xico. All&iacute; permaneci&oacute; por 13 a&ntilde;os hasta que sinti&oacute; el llamado a fundar el ministerio Amistad Cristiana Internacional y el sello musical Aliento Producciones, de los cuales es el presidente.<br><br>
+			
+ Marco tiene 30 grabaciones de alabanza y adoraci&oacute;n, es autor del libro El plan de Dios para ti y Mu&eacute;strame Tu Gloria, de reciente publicaci&oacute;n. Viaja extensamente llevando los congresos &quot;Aliento del Cielo&quot; por todo el mundo y m&aacute;s recientemente la Escuela de L&iacute;deres y Artes del Ministerio (ELAM). Es considerado un facilitador para que la gente tenga encuentros significativos en la presencia de Dios. Su ministerio tiene que ver fundamentalmente con ense&ntilde;arle a la gente los principios y din&aacute;micas del Reino de Dios ayud&aacute;ndoles a aplicarlos de una forma pr&aacute;ctica en su vida diaria.<br><br>
+ 
+ Su anhelo es ver a cada persona establecida f&iacute;rmemente en el Reino, instruida en la Palabra de Dios, amando al Se&ntilde;or con todo su coraz&oacute;n y cumpliendo con el prop&oacute;sito de Dios para sus vida. Por esta raz&oacute;n el 26 de Septiembre del 2004 comenz&oacute; con Carla la iglesia Centro Internacional Aliento. &eacute;l y su esposa Carla llevan quince a&ntilde;os de casados y residen en Dallas, TX, junto con sus dos hijos, Daniela y Marco.
+		</div>
+		<div id="predicadoressocial">
+			<a href="http://www.facebook.com/pages/Marco-Barrientos-Band/85483422252?ref=ts" target="_blank"><img src="images/facebook_picon.png" border="0" alt="Visitanos en Facebook"></a>
+			<a href="http://twitter.com/#!/marcobarrientos" target="_blank"><img src="images/twitter_picon.png" border="0" alt="Visitanos en Twitter"></a>
+			<a href="http://www.youtube.com/results?search_query=marco+barrientos" target="_blank"><img src="images/youtube_picon.png" border="0" alt="Visitanos en Youtube"></a>
+			<a href="http://www.aliento.org/" target="_blank"><img src="images/www_picon.png" border="0" alt="Visitanos en nuestra P&aacute;gina"></a>
+		</div>
+	  </div>
+      <div class="panel" id="droever">
+		<img src="images/pastoresroever.jpg" border="0" />
+		<div id="predicadoresinfo">
+			Dave Roever fue miembro del ej&eacute;rcito de los Estados Unidos, qui&eacute;n en su juventud sirvi&oacute; en la guerra de Vietman y en una misi&oacute;n de reconocimiento una bomba estalla sobre &eacute;l quemando el 40% de su cuerpo. Roever fue llevado al hospital d&oacute;nde es internado por 14 meses e intervenido quir&uacute;rgicamente en 15 ocasiones. Inmediatamente despu&eacute;s de su recuperaci&oacute;n se dedica a predicar un mensaje de esperanza alrededor de Estados Unidos y el mundo, ministrando la sanidad y creyendo que &quot;las cicatrices son s&oacute;lo la evidencia  de heridas que sanaron&quot;<br><br>
+			
+En mayo de 2005, Dave fue galardonado con un doctorado honoris causa en reconocimiento de su extraordinaria vida y servicio. Actualmente es fundador y presidente de dos corporaciones sin fines de lucro: Asociaci&oacute;n Evangel&iacute;stica Roever (REA) y Programas de Asistencia Educativa Roever (REAP) con sede en Fort Worth, Texas. Dave y su esposa, Brenda, son co-fundadores de la Cumbre de Eagles Ranch, donde junto con los  guerreros del equipo de tren heridos, y de los militares de EE.UU., ayudan en la recuperaci&oacute;n civil y emocional despu&eacute;s de una lesi&oacute;n devastadora, ayud&aacute;ndoles a cumplir con sus destinos. En la actualidad Dave menciona en sus mensajes: El diablo crey&oacute; que me iba a destruir, pero estas cicatrices son las que Dios usa para llevar sanidad a otros.
+		</div>
+		<div id="predicadoressocial">
+			<a href="http://www.facebook.com/pages/Dave-Roever/152322355947" target="_blank"><img src="images/facebook_picon.png" border="0" alt="Visitanos en Facebook"></a>
+			<a href="http://twitter.com/#!/daveroever" target="_blank"><img src="images/twitter_picon.png" border="0" alt="Visitanos en Twitter"></a>
+			<a href="http://www.youtube.com/results?search_query=dave+roever" target="_blank"><img src="images/youtube_picon.png" border="0" alt="Visitanos en Youtube"></a>
+			<a href="http://daveroever.org/" target="_blank"><img src="images/www_picon.png" border="0" alt="Visitanos en nuestra P&aacute;gina"></a>
+		</div>
+	  </div>
+      <div class="panel" id="font">
+		<img src="images/pastoresfont.jpg" border="0" />
+		<div id="predicadoresinfo">
+			Otoniel Fuente comenz&oacute; como pastor a la edad de 19 a&ntilde;os con su esposa Omayra en la Iglesia Fuente De Agua Viva en Orlando, Florida, que fue inaugurada el 26 de junio de 1994.
+<br><br>
+En s&oacute;lo 4 a&ntilde;os Fuente de Agua Viva en Orlando, alcanz&oacute; grandes logros, incluyendo su impresionante crecimiento y la adquisici&oacute;n del Canal 47, el primer canal hispano cristiano en Florida Central. Tambi&eacute;n la iglesia adquiri&oacute; 75 hect&aacute;reas de terreno estrat&eacute;gicamente ubicado en 12250 John Young Parkway. En la actualidad, la Iglesia Fuente de Agua Viva en Orlando es una de las iglesias de m&aacute;s r&aacute;pido crecimiento del Concilio Misi&oacute;n Cristiana Fuente de Agua Viva. El Pastor Otoniel Font es conocido por su predicaci&oacute;n din&aacute;mica de la Palabra de Dios. Sus ense&ntilde;anzas presentan los principios b&aacute;sicos de la Palabra de Dios con la intenci&oacute;n de alentar y motivar a la gente de Dios. Sus ense&ntilde;anzas han impactado a miles de vidas en la Florida Central, Puerto Rico y Am&eacute;rica Latina, a trav&eacute;s de sus servicios semanales, programas de radio y televisi&oacute;n, las contribuciones a revistas y peri&oacute;dicos, y por sus visitas a distintos ministerios a nivel internacional. Sus sermones son tambi&eacute;n difundidos a trav&eacute;s de distintas emisoras de radio en los Estados Unidos y Am&eacute;rica Latina.
+<br><br>
+En enero de 2004 Dios transporto al Pastor Otoniel Font para la isla de Puerto Rico para continuar el trabajo de m&aacute;s de 30 a&ntilde;os de su padre; Ap&oacute;stol Rodolfo Font. Pastor Otoniel Fuente recibi&oacute; su doctorado en filosof&iacute;a de la religi&oacute;n, un gran logro que le lleva a otro nivel en el conocimiento, apoyado por la sabidur&iacute;a que Dios le ha concedido.
+<br><br>
+En la actualidad, el Pastor Otoniel sigue tocando miles de vidas en su Iglesia Fuente de Agua Viva en Carolina, Puerto Rico.
+<br><br>
+		</div>
+		<div id="predicadoressocial">
+			<a href="http://www.facebook.com/pages/Otoniel-Omayra-Font/43819391007" target="_blank"><img src="images/facebook_picon.png" border="0" alt="Visitanos en Facebook"></a>
+			<a href="http://twitter.com/#!/OtonielFont" target="_blank"><img src="images/twitter_picon.png" border="0" alt="Visitanos en Twitter"></a>
+			<a href="http://www.youtube.com/otonielfont/" target="_blank"><img src="images/youtube_picon.png" border="0" alt="Visitanos en Youtube"></a>
+			<a href="http://www.otonielfont.com/" target="_blank"><img src="images/www_picon.png" border="0" alt="Visitanos en nuestra P&aacute;gina"></a>
+		</div>
+	  </div>
+      <div class="panel" id="leeland">
+		<img src="images/leeland.jpg" border="0" />
+		<div id="predicadoresinfo">
+			<iframe title="YouTube video player" width="390" height="249" src="http://www.youtube.com/embed/TpSMx9PF51o" frameborder="0" allowfullscreen></iframe>
+			<br><br>
+		
+			Es una banda americana de rock cristiano fundada en Baytown, Texas, Estados Unidos. La banda se form&oacute; en el 2004, sin embargo, su l&iacute;der Leeland Mooring ya hab&iacute;a estado escribiendo canciones. Leeland est&aacute; conformado por Leeland Mooring (voz, guitarra), Jack Mooring (coros, teclados), Jake Holtz (bajo) y Mike Smith (bater&iacute;a).<br><br>
+			
+			Leeland ha publicado tres &aacute;lbumes de estudio, y fue nominado a un premio Grammy y a dos nominaciones Dove Award por su primer &aacute;lbum Sound of Melodies (2006). El tercer &aacute;lbum de estudio de la banda Love Is on the Move, fue lanzado el 25 de agosto del 2009.
+		</div>
+		<div id="predicadoressocial">
+			<a href="http://www.facebook.com/leeland" target="_blank"><img src="images/facebook_picon.png" border="0" alt="Visitanos en Facebook"></a>
+			<a href="http://www.twitter.com/#!/leelandofficial" target="_blank"><img src="images/twitter_picon.png" border="0" alt="Visitanos en Twitter"></a>
+			<a href="http://www.youtube.com/user/leelandtv" target="_blank"><img src="images/youtube_picon.png" border="0" alt="Visitanos en Youtube"></a>
+			<a href="http://www.leelandonline.com" target="_blank"><img src="images/www_picon.png" border="0" alt="Visitanos en nuestra P&aacute;gina"></a>
+		</div>
+	  </div>
+    </div>
+  </div>
+</div>
+<div id="botonhome2"><a href="#" id="iniciobtn"><img src="images/inicio_btn.png" border="0" /></a></div>

@@ -1,0 +1,16 @@
+<script>
+$('#iniciobtn').click(function(){
+	$('#contenido').html('<div id="loader"><img src="images/loader.gif" border="0"/></div>');
+		$('#worldmap').animate(
+		{
+			marginLeft:'-1560px',
+			marginTop:'-1560px'
+			},1500,
+			function(){
+				$('#contenido').load('area1.html');
+			}
+		);
+});
+</script>
+<img src="images/jovenes_map_extreme.png" alt="jovenes_map_extreme" width="850" height="568"/>
+<div id="botonhome"><a href="#" id="iniciobtn"><img src="images/inicio_btn.png" border="0" width="100" height="50" /></a></div>
